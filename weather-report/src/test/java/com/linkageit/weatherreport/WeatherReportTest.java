@@ -1,81 +1,94 @@
 /*
 package com.linkageit.weatherreport;
 
+
+import com.linkageit.weatherreport.controller.WeatherController;
 import com.linkageit.weatherreport.model.WeatherReportResponse;
 import com.linkageit.weatherreport.service.WeatherReportService;
-import org.json.simple.parser.ParseException;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
-import org.mockito.MockitoAnnotations;
-import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.test.util.ReflectionTestUtils;
+import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.web.client.RestTemplate;
 
-import java.io.FileNotFoundException;
-
-import static org.mockito.ArgumentMatchers.any;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.any;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@RunWith(MockitoJUnitRunner.class)
-@SpringBootTest
-@AutoConfigureMockMvc
+@WebMvcTest(WeatherController.class)
 public class WeatherReportTest {
 
-    @InjectMocks
+    //@Autowired
+    //private WeatherController weatherController;
+
+    @MockBean
     private WeatherReportService weatherReportService;
 
     @Autowired
     private MockMvc mockMvc;
 
-
+    @MockBean
+    private RestTemplate restTemplate;
 
     private WeatherReportResponse weatherReportResponse;
 
     private static final String CITY1 = "London";
-
     private static final String CITY2 = "Berlin";
-
     private static final String CITY3 = "abc123";
 
-    private static final String API_URL = "/weather?Location=";
+    private static final String API_URL = "/current?Location=";
 
     private String jsonStr = "{\"data\":{\"temp\":277.8,\"pressure\":1010,\"umbrella\":false},\"statusCode\":200,\"recordCount\":1,\"message\":\"Weather report for London\"}";
 
-    @Before
+    */
+/*@BeforeAll
     public void init() {
+
+        //ReflectionTestUtils.setField(weatherReportService, "openweatherurl", "http://api.openweathermap.org/data/2.5/weather?q=");
+        //ReflectionTestUtils.setField(weatherReportService, "appid", "fe7a5de42789a144805014ce1b61bbc1");
+
+        //MockitoAnnotations.initMocks(this);
+    }*//*
+
+
+    */
+/*@Test
+    public void contextLoads() throws Exception {
+        assertThat(weatherController).isNotNull();
+    }*//*
+
+
+    @Test
+    public void getWeatherReportForCity() throws Exception {
+
         weatherReportResponse = new WeatherReportResponse();
         weatherReportResponse.setPressure(124l);
         weatherReportResponse.setTemp(12);
         weatherReportResponse.setUmbrella(false);
 
-        ReflectionTestUtils.setField(weatherReportService, "openweatherurl", "http://api.openweathermap.org/data/2.5/weather?q=");
-        ReflectionTestUtils.setField(weatherReportService, "appid", "fe7a5de42789a144805014ce1b61bbc1");
+        when(weatherReportService.isUmbrellaRequired(CITY1)).thenReturn(weatherReportResponse);
 
-        MockitoAnnotations.initMocks(this);
-    }
-
-    @Test
-    public void getWeatherReportForCity() throws Exception {
-        when(weatherReportService.isUmbrellaRequired(CITY1)).thenReturn(any());
-
-        this.mockMvc.perform(get(API_URL+CITY1))
+        this.mockMvc.perform(get(API_URL+CITY3))
                     .andExpect(status().isOk())
-                    .andExpect(content().json(jsonStr))
+                    .andExpect(content().json("{\"success\":false,\"message\":\"Location not found.\"}"))
                     .andReturn();
     }
 
-    @Test(expected = FileNotFoundException.class)
+    */
+/*@Test(expected = FileNotFoundException.class)
     public void getWeatherReportForNonExistingCity() throws ParseException {
         weatherReportService.isUmbrellaRequired(CITY3);
-    }
+    }*//*
+
 }
 */

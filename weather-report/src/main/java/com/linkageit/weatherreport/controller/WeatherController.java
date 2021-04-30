@@ -14,18 +14,17 @@ import org.springframework.web.bind.annotation.RestController;
 import java.io.IOException;
 
 @RestController
-public class weatherController {
+public class WeatherController {
 
     @Autowired
     private WeatherReportService weatherReportService;
 
     @GetMapping("/current")
-    public ResponseEntity<BaseResponse> getWeatherReport(@RequestParam(name = "location") String city) throws IOException, ParseException {
+    public ResponseEntity<BaseResponse> getWeatherReport(@RequestParam(name = "location")final String city) throws IOException, ParseException {
         WeatherReportResponse data = weatherReportService.isUmbrellaRequired(city);
         BaseResponse response = null;
         if(data==null) {
-            response = new BaseResponse("City not found",404,0,"No data present for "+city
-            );
+            response = new BaseResponse("City not found",404,0,"No data present for "+city);
             return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
         }
 
