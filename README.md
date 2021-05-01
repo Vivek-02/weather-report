@@ -7,9 +7,9 @@ Endpoint      : /current  </br>
 Request Param : location  </br>
 Reponse       : 200 Ok  </br>
 ResponseBody  : { </br>
-&nbsp             "temp": double, </br>
-                  "pressure": long, </br>
-                  "umbrella": boolean  </br>
+&nbsp;            "temp": double, </br>
+&nbsp;            "pressure": long, </br>
+&nbsp;            "umbrella": boolean  </br>
                 } </br>
                 
                 
